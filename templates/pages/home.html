@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}صفحه اصلی {% endblock title %}
+{% block content %}
+<div class="jumbotron jumbotron-fluid text-center" dir="rtl">
+    <div class="container">
+      <h1>DJ SOCIAL</h1>
+      <p>بهترین و قویترین شبکه اجتماعی</p>
+      <a href="{% url 'register' %}" class="btn btn-success">ثبت نام</a>
+      <a href="{% url 'login' %}" class="btn btn-primary">ورود</a>
+    </div>
+  </div>
+{% endblock content %}

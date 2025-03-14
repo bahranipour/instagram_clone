@@ -1,0 +1,73 @@
+<!-- accounts/templates/accounts/user_list.html -->
+{% extends 'base.html' %}
+{% block title %}کاربران{% endblock title %}
+{% block content %}
+<div class="container mt-3">
+
+
+{% if request.user.is_authenticated %}
+    <h1 class="text-center">لیست کاربران</h1>
+    <hr>
+    
+        <div class="row">
+            <div class="col-md-5 com-sm-10 mx-auto">
+                {% for data in user_data %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <img src="{{ data.user.profile_picture.url }}" alt="{{ data.user.username }}" class="rounded-circle mx-auto d-block" style="width:60px;">
+                        <hr>
+                        <h4 class="text-center mt-2 mb-2"><a href="{% url 'profile' data.user.username %}">{{ data.user.username }}</a></h4>
+                       <!-- دکمه Follow/Unfollow -->
+                       <form action="{% url 'follow_user' data.user.username %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            {% if data.is_following %}
+                                <button type="submit" class="btn btn-danger btn-sm float-right">لغو دنبال</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-primary btn-sm float-right">دنبال کردن</button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+                {% empty %}
+                    <div class="alert alert-warning text-center">هیچ کاربری پیدا نشد</div>
+                {% endfor %}
+                
+                <ul class="pagination justify-content-center">
+                    <li class="page-item page-link">
+                        صفحه  {{ user_page.number }} از {{ user_page.paginator.num_pages }}
+                    </li>
+                        {% if user_page.has_previous %}
+                        <li class="page-item">
+                            <a href="?page=1" class="page-link">&laquo; اولین</a>
+                        </li>
+                        <li class="page-item">
+                            <a href="?page={{ user_page.previous_page_number }}" class="page-link">قبلی</a>
+                        </li>
+                        {% endif %}
+                   
+                 
+                        
+                 
+                        
+                   
+                        {% if user_page.has_next %}
+                        <li class="page-item">
+                            <a href="?page={{ user_page.next_page_number }}" class="page-link">بعدی</a>
+                        </li>
+                        <li class="page-item">
+                            <a href="?page={{ user_page.paginator.num_pages }}" class="page-link">آخرین &raquo;</a>
+                        </li>
+                        {% endif %}
+                    </li>
+                </ul>
+                  
+                
+            </div>
+        </div>
+       
+  
+{% else %}
+    <p>Please <a href="{% url 'login' %}">login</a> to view the user list.</p>
+{% endif %}
+</div>
+{% endblock %}
